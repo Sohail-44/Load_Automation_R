@@ -135,8 +135,10 @@ sheet_id = "1PH5RPoDfx5ONpsVGl0ixRvbsvo9PQnoyNvMhRIZkzXw"
    send = TRUE
  )
    
- cmd <- cron_rscript("send_daily_flag.R")
- cron_add(command = cmd, frequency = 'daily', at = "07:00", id = 'daily_flag_email')
+ 
+ script_path <- "../Automating_with_RScript/send_daily_flag_Notes.R"
+ cmd <- cron_rscript("send_daily_flag_Notes.R")
+
 
  
 
