@@ -3,20 +3,14 @@
 
 
 ' 
-*Background*
-
-I started learning about pollutant load modelling taking inspiration from Metropolitan Councils work, I realized Random Forests outperforms traditional Regression 
-based standard monirtoring system such as FLUX32 and MPCS as Random Forest captures non-linear and complex relationship and since it averages the decision trees it 
-gives more accurate predictions and learns the "if-then" relationship.  I came across 2 research papers that explains how cutting-edge ML Models such as Random Forest
-could potentially improve pollutant load modelling  : " A random forest approach to improve estimates of tributary nutrient loading", 
-"Using Random Forest, a machine learning approach to predict nitrogen, phosphorus, and sediment event mean concentrations in urban runoff". 
-These reseach papers are mentioned by ScienceDirect Journal. 
 
 *Goal*
-My goal is automate whole process of pollutant load modelling by fetching the data, converting into data frame, training Ramdom Forest Models,  predicting load better, 
-classifying each day load as OK, Alert or Emergency based on General standards and saving output as a CSV for maintaing records and sending an email notification 
-to the Manager everyday with important and necerrsay details of that day. The main purpose to build a model is that it can be tweaked to handle missing values when we do not have 
-enough data and when some data is missing through imputation. 
+My  current goal is to simply wrote a script to automate the  process of pollutant load modelling by fetching the data (in our case simulated data from Googlesheets), converting into data frame,  
+classifying each day load as OK, Alert based on Minnesota standards and saving output as a CSV in the Google Sheet tab for maintaing records and sending an email notification 
+to the Manager everyday with necerrsay details of that day. 
+
+Near Future goal : Later, I do want  train and build a Random Forest model which has shown to outperfom standard Flux32 pollutant load estimation to improve load concentrate predictions 
+and its especially useful as it can be imputated through KNN to handle missing values when we do not have enough data and when some data is missing.  
 '
 
 
@@ -40,7 +34,7 @@ Daily Water Quality conditions at one location'
 
 '
 
-## Using Google sheets as a database  
+ 
 
 # Installing packages 
 library(tidyverse)
@@ -83,7 +77,7 @@ sheet_id = "1PH5RPoDfx5ONpsVGl0ixRvbsvo9PQnoyNvMhRIZkzXw"
      Volume_L_day = Flow_Rate_cms * 86400 * 1000,
      load_concentrate_kg_day = TSS_mg_L * Volume_L_day * 1e-6,
      
-     Flag_Notes = case_when(                                            
+     Flag_Notes = case_when(                                                      # using case when for multiple conditionals                                   
        TSS_mg_L   > MN_TSS_std  ~ "ALERT: high TSS",
        TP_mg_L    > MN_TP_std   ~ "ALERT: high TP",
        Nitrate_N_mg_L > MN_NO3_std ~ "ALERT: high nitrate",
@@ -92,11 +86,11 @@ sheet_id = "1PH5RPoDfx5ONpsVGl0ixRvbsvo9PQnoyNvMhRIZkzXw"
        TRUE ~ "OK"
      )
    ) %>% 
-   relocate(Volume_L_day, load_concentrate_kg_day, .before = Flag_Notes) 
+   relocate(Volume_L_day, load_concentrate_kg_day, .before = Flag_Notes) # I want to see the Flag_Notes variable at the end 
 
  
  df %>% 
-   sheet_write(ss = sheet_id, sheet = "Load Modelling") 
+   sheet_write(ss = sheet_id, sheet = "Load Modelling") # Writing the cleaned df to Load Modelling tab in the Google sheet 
  
  view(df)
  
@@ -107,17 +101,19 @@ sheet_id = "1PH5RPoDfx5ONpsVGl0ixRvbsvo9PQnoyNvMhRIZkzXw"
  
  # Reading just today's data 
  gs4_auth()
- df <- read_sheet("your_sheets_url")
- today_row <- df %>% filter(Date == Sys.Date())
+ df
+ today_row <- df %>% 
+   filter(Date == Sys.Date()) 
  
  
  
+ # The email body with water date for that day and Flag_Note ("Ok", "Alert") for turbidity, nitrate, TSS etc 
  flag_text <- paste0(
    "Daily Water Quality Alert for ", Sys.Date(), "\n\n",
    "Flag_Notes: ", today_row$Flag_Notes[1]
  )
  
- smtp_password <- Sys.getenv("SMTP_PASS")
+ smtp_password <- Sys.getenv("SMTP_PASS") # Stored credentials safely in the R_environment 
  
  send.mail(
    from = "smohamm2@macalester.edu",
@@ -136,8 +132,10 @@ sheet_id = "1PH5RPoDfx5ONpsVGl0ixRvbsvo9PQnoyNvMhRIZkzXw"
  )
    
  
+ # Automating the script with cro
  script_path <- "../Automating_with_RScript/send_daily_flag_Notes.R"
  cmd <- cron_rscript("send_daily_flag_Notes.R")
+ cron_add(command = cmd, frequency = 'daily', at = "07:00", id = 'daily_flag_email')
 
 
  
