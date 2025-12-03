@@ -29,6 +29,9 @@ Nitrate_N_mg_L             : Nitrate as N (mg/L).
 DO_mg_L                    : Dissolved Oxygen (mg/L).
 Flag_Notes                 : Status text (“OK” / “ALERT”) after comparing to standards.
 
+# Tech Stack :
+R-Studio, R
+Packages : googlesheets4, mailR, Blastula, cronR, glue, tidyverse
 
 <img width="1047" height="367" alt="Screenshot 2025-12-02 at 7 59 54 PM" src="https://github.com/user-attachments/assets/3ef882e2-6fa8-46de-bd03-0feea57d26d3" />
 
