@@ -40,8 +40,6 @@ Daily Water Quality conditions at one location'
 library(tidyverse)
 library(googlesheets4)
 library(dplyr)
-library(randomForest)
-library(tidymodels)
 library(cronR)
 library(mailR)
 library(blastula)
