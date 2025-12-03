@@ -7,7 +7,7 @@
 *Goal*
 My  current goal is to simply wrote a script to automate the  process of pollutant load modelling by fetching the data (in our case simulated data from Googlesheets), converting into data frame,  
 classifying each day load as OK, Alert based on Minnesota standards and saving output as a CSV in the Google Sheet tab for maintaing records and sending an email notification 
-to the Manager everyday with necerrsay details of that day. 
+to the suppoed Manager everyday with very simple details of that day. 
 
 Near Future goal : Later, I do want  train and build a Random Forest model which has shown to outperfom standard Flux32 pollutant load estimation to improve load concentrate predictions 
 and its especially useful as it can be imputated through KNN to handle missing values when we do not have enough data and when some data is missing.  
@@ -56,6 +56,8 @@ df <- read_sheet("https://docs.google.com/spreadsheets/d/1PH5RPoDfx5ONpsVGl0ixRv
 dim(df)
 df %>% 
   head()
+
+
 
 gs4_auth()
 sheet_id = "1PH5RPoDfx5ONpsVGl0ixRvbsvo9PQnoyNvMhRIZkzXw"
@@ -138,7 +140,7 @@ sheet_id = "1PH5RPoDfx5ONpsVGl0ixRvbsvo9PQnoyNvMhRIZkzXw"
  cron_add(command = cmd, frequency = 'daily', at = "07:00", id = 'daily_flag_email')
 
 
- 
+
 
 
  
