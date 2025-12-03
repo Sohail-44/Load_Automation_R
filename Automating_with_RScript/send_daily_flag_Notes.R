@@ -66,6 +66,7 @@ sheet_id = "1PH5RPoDfx5ONpsVGl0ixRvbsvo9PQnoyNvMhRIZkzXw"
  
  # Calculating the load_concentrate and adding it to the df which'll be our resonse variable 
  
+# As per Standards of Minnesota 
  MN_TSS_std  <- 65    # mg/L
  MN_TP_std   <- 0.50  # mg/L  (or lower if you want to be stricter)
  MN_NO3_std  <- 10    # mg/L
