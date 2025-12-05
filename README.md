@@ -4,7 +4,7 @@
 
 
 ## Goal
-My  current goal is to simply write a script to automate the  process of pollutant load modelling by fetching the data (in our case simulated data from Googlesheets), converting into data frame,  classifying each day load as OK, Alert based on Minnesota standards and saving output as a CSV in the Google Sheet tab for maintaing records and sending an email notification to the suppoed Manager everyday with very simple details of that day. 
+My  current goal is to simply write a script to automate the  process of pollutant load modelling by fetching the data (in our case simulated data from Googlesheets), converting into data frame,  classifying each day load as OK, Alert based on Minnesota standards and saving output as a CSV in the Google Sheet tab for maintaing records and sending an email notification to the suppoed Manager everyday with very simple details of that day. This project was inspired by the work of Metropolitan Council. 
 
 Near Future goal : Later, I do want  train and build a Random Forest model which has shown to outperfom standard Flux32 pollutant load estimation to improve load concentrate predictions and its especially useful as it can be imputed through KNN to handle missing values when we do not have enough data and when some data is missing.  
 
